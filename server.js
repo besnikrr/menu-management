@@ -14,18 +14,18 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 const run = async() => {
-    const menu1 = await MenuController.create({
-        name: "Menu#1",
-        description: "Menu#1 Description",
-    });
-    const menu2 = await MenuController.create({
-        name: "Menu#2",
-        description: "Menu#2 Description",
-    });
-    const menu3 = await MenuController.create({
-        name: "Menu#3",
-        description: "Menu#3 Description",
-    });
+    // const menu1 = await MenuController.create({
+    //     name: "Menu#1",
+    //     description: "Menu#1 Description",
+    // });
+    // const menu2 = await MenuController.create({
+    //     name: "Menu#2",
+    //     description: "Menu#2 Description",
+    // });
+    // const menu3 = await MenuController.create({
+    //     name: "Menu#3",
+    //     description: "Menu#3 Description",
+    // });
 
     const item1 = await ItemController.create({
         name: "item#1",

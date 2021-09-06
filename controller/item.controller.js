@@ -18,13 +18,13 @@ exports.create = (item) => {
         });
 };
 // Retrieve all Items
-exports.findAll = () => {
+exports.findAll = (req, res) => {
     return Item.findAll({
         include: [
             {
-                model: Item,
-                as: "items",
-                attributes: ["id", "name", "price", "description"],
+                model: Menu,
+                as: "menus",
+                attributes: ["id", "name", "description"],
                 through: {
                     attributes: [],
                 },
@@ -35,7 +35,7 @@ exports.findAll = () => {
         ],
     })
         .then((items) => {
-            return items;
+            return res.send(items);
         })
         .catch((err) => {
             console.log(">> Error while retrieving Items: ", err);

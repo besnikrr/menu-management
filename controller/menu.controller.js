@@ -3,28 +3,28 @@ const Menu = db.menu;
 const Item = db.item;
 
 // Create and Save new Menu
-exports.create = (menu, userId) => {
-    return Menu.create({
-        name: menu.name,
-        description: menu.description,
-        userId: userId
+exports.create = (req, res) => {
+    console.log(req)
+    Menu.create({
+        name: req.body.name,
+        description: req.body.description
     })
-        .then((menu) => {
+        .then(menu => {
             console.log(">> Created Menu: " + JSON.stringify(menu, null, 2));
-            return menu;
+            res.send(menu);
         })
         .catch((err) => {
             console.log(">> Error while creating Menu: ", err);
         });
 };
 // Find all Menus
-exports.findAll = () => {
+exports.findAll = (req, res) => {
     return Menu.findAll({
         include: [
             {
                 model: Item,
                 as: "items",
-                attributes: ["id", "name", "price","description"],
+                attributes: ["id", "name", "price", "description"],
                 through: {
                     attributes: [],
                 }
@@ -32,7 +32,7 @@ exports.findAll = () => {
         ],
     })
         .then((menus) => {
-            return menus;
+            return res.send(menus);
         })
         .catch((err) => {
             console.log(">> Error while retrieving Menus: ", err);
@@ -41,8 +41,7 @@ exports.findAll = () => {
 // Update menu
 exports.update = (req, res) => {
     const id = req.params.id;
-
-        Menu.update(req.body, {
+    Menu.update(req.body, {
         where: { id: id }
     })
         .then(num => {
@@ -65,7 +64,7 @@ exports.update = (req, res) => {
 // remove a Menu
 exports.delete = (req, res) => {
     const id = req.params.id;
-
+    console.log(id);
     Menu.destroy({
         where: { id: id }
     })
