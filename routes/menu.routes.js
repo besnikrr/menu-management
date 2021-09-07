@@ -23,4 +23,9 @@ module.exports = function(app) {
     // Create a new Menu
     app.delete("/api/menu", menu.deleteAll);
 
+    // Add Item to Menu
+    app.post("/api/menu/item", menu.addItem);
+
+    // Remove Item from Menu
+    app.delete("/api/menu-delete-item", menu.removeItem);
 };

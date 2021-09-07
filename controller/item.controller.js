@@ -3,15 +3,15 @@ const Menu = db.menu;
 const Item = db.item;
 
 // Create and Save new Item
-exports.create = (item) => {
-    return Item.create({
-        name: item.name,
-        price: item.price,
-        description: item.description,
+exports.create = (req, res) => {
+    Item.create({
+        name: req.body.name,
+        price: req.body.price,
+        description: req.body.description,
     })
         .then((item) => {
             console.log(">> Created Item: " + JSON.stringify(item, null, 4));
-            return item;
+            res.send(item);
         })
         .catch((err) => {
             console.log(">> Error while creating Item: ", err);

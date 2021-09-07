@@ -102,14 +102,14 @@ exports.deleteAll = (req, res) => {
         });
 };
 //Add a Item to a Menu
-exports.addItem = (menuId, itemId) => {
-    return Menu.findByPk(menuId)
+exports.addItem = (req, res) => {
+    Menu.findByPk(req.body.menuId)
         .then((menu) => {
             if (!menu) {
                 console.log("Menu not found!");
                 return null;
             }
-            return Item.findByPk(itemId).then((item) => {
+            Item.findByPk(req.body.itemId).then((item) => {
                 if (!item) {
                     console.log("Item not found!");
                     return null;
@@ -117,35 +117,31 @@ exports.addItem = (menuId, itemId) => {
 
                 menu.addItem(item);
                 console.log(`>> added Item id=${item.id} to Menu id=${menu.id}`);
-                return menu;
+                res.send(menu);
             });
         })
         .catch((err) => {
+            console.log(req)
             console.log(">> Error while adding Item to Menu: ", err);
         });
 };
 
-// removeItem
-// exports.removeItem = (req, res) => {
-//     const id = req.params.id
-//     Item.destroy({
-//         where: { id: id }
-//     })
-//         .then(num => {
-//             if (num == 1) {
-//                 res.send({
-//                     message: "Item was deleted successfully!"
-//                 });
-//             } else {
-//                 res.send({
-//                     message: `Cannot delete Item with id=${id}. Maybe Item was not found!`
-//                 });
-//             }
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message: "Could not delete Item with id=" + id
-//             });
-//         });
-// }
+exports.removeItem = (req, res) => {
+    Menu.findByPk(req.body.menuId)
+        .then(menu => {
+            Item.findByPk(req.body.itemId).then((item) => {
+                if (!item) {
+                    console.log("Item not found!");
+                    return null;
+                }
 
+                menu.removeItem(1);
+                console.log(`>> removed Item id=${item.id} to Menu id=${menu.id}`);
+                res.send(menu);
+            });
+        })
+        .catch((err) => {
+            console.error(console.error(err.stack || err))
+            console.log(">> Error while removing Item to Menu: ", err);
+        })
+}
